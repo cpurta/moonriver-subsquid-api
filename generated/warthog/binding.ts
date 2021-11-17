@@ -6,12 +6,12 @@ import { IResolvers } from 'graphql-tools/dist/Interfaces'
 import * as schema from  './schema.graphql'
 
 export interface Query {
-    accounts: <T = Array<Account>>(args: { offset?: Int | null, limit?: Int | null, where?: AccountWhereInput | null, orderBy?: Array<AccountOrderByInput> | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    accountByUniqueInput: <T = Account | null>(args: { where: AccountWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
-    accountsConnection: <T = AccountConnection>(args: { first?: Int | null, after?: String | null, last?: Int | null, before?: String | null, where?: AccountWhereInput | null, orderBy?: Array<AccountOrderByInput> | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    historicalBalances: <T = Array<HistoricalBalance>>(args: { offset?: Int | null, limit?: Int | null, where?: HistoricalBalanceWhereInput | null, orderBy?: Array<HistoricalBalanceOrderByInput> | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    historicalBalanceByUniqueInput: <T = HistoricalBalance | null>(args: { where: HistoricalBalanceWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
-    historicalBalancesConnection: <T = HistoricalBalanceConnection>(args: { first?: Int | null, after?: String | null, last?: Int | null, before?: String | null, where?: HistoricalBalanceWhereInput | null, orderBy?: Array<HistoricalBalanceOrderByInput> | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    tokenBurns: <T = Array<TokenBurn>>(args: { offset?: Int | null, limit?: Int | null, where?: TokenBurnWhereInput | null, orderBy?: Array<TokenBurnOrderByInput> | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    tokenBurnByUniqueInput: <T = TokenBurn | null>(args: { where: TokenBurnWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
+    tokenBurnsConnection: <T = TokenBurnConnection>(args: { first?: Int | null, after?: String | null, last?: Int | null, before?: String | null, where?: TokenBurnWhereInput | null, orderBy?: Array<TokenBurnOrderByInput> | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    tokenMints: <T = Array<TokenMint>>(args: { offset?: Int | null, limit?: Int | null, where?: TokenMintWhereInput | null, orderBy?: Array<TokenMintOrderByInput> | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    tokenMintByUniqueInput: <T = TokenMint | null>(args: { where: TokenMintWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
+    tokenMintsConnection: <T = TokenMintConnection>(args: { first?: Int | null, after?: String | null, last?: Int | null, before?: String | null, where?: TokenMintWhereInput | null, orderBy?: Array<TokenMintOrderByInput> | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     hello: <T = Hello>(args?: {}, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
   }
 
@@ -45,18 +45,7 @@ export const Binding = makeBindingClass<BindingConstructor<Binding>>({ schema: s
  * Types
 */
 
-export type AccountOrderByInput =   'createdAt_ASC' |
-  'createdAt_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'deletedAt_ASC' |
-  'deletedAt_DESC' |
-  'wallet_ASC' |
-  'wallet_DESC' |
-  'balance_ASC' |
-  'balance_DESC'
-
-export type HistoricalBalanceOrderByInput =   'createdAt_ASC' |
+export type TokenBurnOrderByInput =   'createdAt_ASC' |
   'createdAt_DESC' |
   'updatedAt_ASC' |
   'updatedAt_DESC' |
@@ -64,67 +53,23 @@ export type HistoricalBalanceOrderByInput =   'createdAt_ASC' |
   'deletedAt_DESC' |
   'account_ASC' |
   'account_DESC' |
-  'balance_ASC' |
-  'balance_DESC' |
+  'amount_ASC' |
+  'amount_DESC' |
   'timestamp_ASC' |
   'timestamp_DESC'
 
-export interface AccountCreateInput {
-  wallet: String
-  balance: String
-}
-
-export interface AccountUpdateInput {
-  wallet?: String | null
-  balance?: String | null
-}
-
-export interface AccountWhereInput {
-  id_eq?: ID_Input | null
-  id_in?: ID_Output[] | ID_Output | null
-  createdAt_eq?: DateTime | null
-  createdAt_lt?: DateTime | null
-  createdAt_lte?: DateTime | null
-  createdAt_gt?: DateTime | null
-  createdAt_gte?: DateTime | null
-  createdById_eq?: ID_Input | null
-  createdById_in?: ID_Output[] | ID_Output | null
-  updatedAt_eq?: DateTime | null
-  updatedAt_lt?: DateTime | null
-  updatedAt_lte?: DateTime | null
-  updatedAt_gt?: DateTime | null
-  updatedAt_gte?: DateTime | null
-  updatedById_eq?: ID_Input | null
-  updatedById_in?: ID_Output[] | ID_Output | null
-  deletedAt_all?: Boolean | null
-  deletedAt_eq?: DateTime | null
-  deletedAt_lt?: DateTime | null
-  deletedAt_lte?: DateTime | null
-  deletedAt_gt?: DateTime | null
-  deletedAt_gte?: DateTime | null
-  deletedById_eq?: ID_Input | null
-  deletedById_in?: ID_Output[] | ID_Output | null
-  wallet_eq?: String | null
-  wallet_contains?: String | null
-  wallet_startsWith?: String | null
-  wallet_endsWith?: String | null
-  wallet_in?: String[] | String | null
-  balance_eq?: BigInt | null
-  balance_gt?: BigInt | null
-  balance_gte?: BigInt | null
-  balance_lt?: BigInt | null
-  balance_lte?: BigInt | null
-  balance_in?: BigInt[] | BigInt | null
-  historicalBalances_none?: HistoricalBalanceWhereInput | null
-  historicalBalances_some?: HistoricalBalanceWhereInput | null
-  historicalBalances_every?: HistoricalBalanceWhereInput | null
-  AND?: AccountWhereInput[] | AccountWhereInput | null
-  OR?: AccountWhereInput[] | AccountWhereInput | null
-}
-
-export interface AccountWhereUniqueInput {
-  id: ID_Output
-}
+export type TokenMintOrderByInput =   'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'deletedAt_ASC' |
+  'deletedAt_DESC' |
+  'account_ASC' |
+  'account_DESC' |
+  'amount_ASC' |
+  'amount_DESC' |
+  'timestamp_ASC' |
+  'timestamp_DESC'
 
 export interface BaseWhereInput {
   id_eq?: String | null
@@ -150,19 +95,19 @@ export interface BaseWhereInput {
   deletedById_eq?: String | null
 }
 
-export interface HistoricalBalanceCreateInput {
-  account: ID_Output
-  balance: String
+export interface TokenBurnCreateInput {
+  account: String
+  amount: String
   timestamp: String
 }
 
-export interface HistoricalBalanceUpdateInput {
-  account?: ID_Input | null
-  balance?: String | null
+export interface TokenBurnUpdateInput {
+  account?: String | null
+  amount?: String | null
   timestamp?: String | null
 }
 
-export interface HistoricalBalanceWhereInput {
+export interface TokenBurnWhereInput {
   id_eq?: ID_Input | null
   id_in?: ID_Output[] | ID_Output | null
   createdAt_eq?: DateTime | null
@@ -187,24 +132,90 @@ export interface HistoricalBalanceWhereInput {
   deletedAt_gte?: DateTime | null
   deletedById_eq?: ID_Input | null
   deletedById_in?: ID_Output[] | ID_Output | null
-  balance_eq?: BigInt | null
-  balance_gt?: BigInt | null
-  balance_gte?: BigInt | null
-  balance_lt?: BigInt | null
-  balance_lte?: BigInt | null
-  balance_in?: BigInt[] | BigInt | null
+  account_eq?: String | null
+  account_contains?: String | null
+  account_startsWith?: String | null
+  account_endsWith?: String | null
+  account_in?: String[] | String | null
+  amount_eq?: BigInt | null
+  amount_gt?: BigInt | null
+  amount_gte?: BigInt | null
+  amount_lt?: BigInt | null
+  amount_lte?: BigInt | null
+  amount_in?: BigInt[] | BigInt | null
   timestamp_eq?: BigInt | null
   timestamp_gt?: BigInt | null
   timestamp_gte?: BigInt | null
   timestamp_lt?: BigInt | null
   timestamp_lte?: BigInt | null
   timestamp_in?: BigInt[] | BigInt | null
-  account?: AccountWhereInput | null
-  AND?: HistoricalBalanceWhereInput[] | HistoricalBalanceWhereInput | null
-  OR?: HistoricalBalanceWhereInput[] | HistoricalBalanceWhereInput | null
+  AND?: TokenBurnWhereInput[] | TokenBurnWhereInput | null
+  OR?: TokenBurnWhereInput[] | TokenBurnWhereInput | null
 }
 
-export interface HistoricalBalanceWhereUniqueInput {
+export interface TokenBurnWhereUniqueInput {
+  id: ID_Output
+}
+
+export interface TokenMintCreateInput {
+  account: String
+  amount: String
+  timestamp: String
+}
+
+export interface TokenMintUpdateInput {
+  account?: String | null
+  amount?: String | null
+  timestamp?: String | null
+}
+
+export interface TokenMintWhereInput {
+  id_eq?: ID_Input | null
+  id_in?: ID_Output[] | ID_Output | null
+  createdAt_eq?: DateTime | null
+  createdAt_lt?: DateTime | null
+  createdAt_lte?: DateTime | null
+  createdAt_gt?: DateTime | null
+  createdAt_gte?: DateTime | null
+  createdById_eq?: ID_Input | null
+  createdById_in?: ID_Output[] | ID_Output | null
+  updatedAt_eq?: DateTime | null
+  updatedAt_lt?: DateTime | null
+  updatedAt_lte?: DateTime | null
+  updatedAt_gt?: DateTime | null
+  updatedAt_gte?: DateTime | null
+  updatedById_eq?: ID_Input | null
+  updatedById_in?: ID_Output[] | ID_Output | null
+  deletedAt_all?: Boolean | null
+  deletedAt_eq?: DateTime | null
+  deletedAt_lt?: DateTime | null
+  deletedAt_lte?: DateTime | null
+  deletedAt_gt?: DateTime | null
+  deletedAt_gte?: DateTime | null
+  deletedById_eq?: ID_Input | null
+  deletedById_in?: ID_Output[] | ID_Output | null
+  account_eq?: String | null
+  account_contains?: String | null
+  account_startsWith?: String | null
+  account_endsWith?: String | null
+  account_in?: String[] | String | null
+  amount_eq?: BigInt | null
+  amount_gt?: BigInt | null
+  amount_gte?: BigInt | null
+  amount_lt?: BigInt | null
+  amount_lte?: BigInt | null
+  amount_in?: BigInt[] | BigInt | null
+  timestamp_eq?: BigInt | null
+  timestamp_gt?: BigInt | null
+  timestamp_gte?: BigInt | null
+  timestamp_lt?: BigInt | null
+  timestamp_lte?: BigInt | null
+  timestamp_in?: BigInt[] | BigInt | null
+  AND?: TokenMintWhereInput[] | TokenMintWhereInput | null
+  OR?: TokenMintWhereInput[] | TokenMintWhereInput | null
+}
+
+export interface TokenMintWhereUniqueInput {
   id: ID_Output
 }
 
@@ -221,31 +232,6 @@ export interface BaseGraphQLObject {
 
 export interface DeleteResponse {
   id: ID_Output
-}
-
-export interface Account extends BaseGraphQLObject {
-  id: ID_Output
-  createdAt: DateTime
-  createdById: String
-  updatedAt?: DateTime | null
-  updatedById?: String | null
-  deletedAt?: DateTime | null
-  deletedById?: String | null
-  version: Int
-  wallet: String
-  balance: BigInt
-  historicalBalances: Array<HistoricalBalance>
-}
-
-export interface AccountConnection {
-  totalCount: Int
-  edges: Array<AccountEdge>
-  pageInfo: PageInfo
-}
-
-export interface AccountEdge {
-  node: Account
-  cursor: String
 }
 
 export interface BaseModel extends BaseGraphQLObject {
@@ -274,32 +260,6 @@ export interface Hello {
   greeting: String
 }
 
-export interface HistoricalBalance extends BaseGraphQLObject {
-  id: ID_Output
-  createdAt: DateTime
-  createdById: String
-  updatedAt?: DateTime | null
-  updatedById?: String | null
-  deletedAt?: DateTime | null
-  deletedById?: String | null
-  version: Int
-  account: Account
-  accountId: String
-  balance: BigInt
-  timestamp: BigInt
-}
-
-export interface HistoricalBalanceConnection {
-  totalCount: Int
-  edges: Array<HistoricalBalanceEdge>
-  pageInfo: PageInfo
-}
-
-export interface HistoricalBalanceEdge {
-  node: HistoricalBalance
-  cursor: String
-}
-
 export interface PageInfo {
   hasNextPage: Boolean
   hasPreviousPage: Boolean
@@ -316,6 +276,56 @@ export interface ProcessorState {
 
 export interface StandardDeleteResponse {
   id: ID_Output
+}
+
+export interface TokenBurn extends BaseGraphQLObject {
+  id: ID_Output
+  createdAt: DateTime
+  createdById: String
+  updatedAt?: DateTime | null
+  updatedById?: String | null
+  deletedAt?: DateTime | null
+  deletedById?: String | null
+  version: Int
+  account: String
+  amount: BigInt
+  timestamp: BigInt
+}
+
+export interface TokenBurnConnection {
+  totalCount: Int
+  edges: Array<TokenBurnEdge>
+  pageInfo: PageInfo
+}
+
+export interface TokenBurnEdge {
+  node: TokenBurn
+  cursor: String
+}
+
+export interface TokenMint extends BaseGraphQLObject {
+  id: ID_Output
+  createdAt: DateTime
+  createdById: String
+  updatedAt?: DateTime | null
+  updatedById?: String | null
+  deletedAt?: DateTime | null
+  deletedById?: String | null
+  version: Int
+  account: String
+  amount: BigInt
+  timestamp: BigInt
+}
+
+export interface TokenMintConnection {
+  totalCount: Int
+  edges: Array<TokenMintEdge>
+  pageInfo: PageInfo
+}
+
+export interface TokenMintEdge {
+  node: TokenMint
+  cursor: String
 }
 
 /*

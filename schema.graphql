@@ -1,14 +1,13 @@
-type Account @entity {
-  "Account address"
+type TokenBurn @entity {
   id: ID!
-  wallet: String!
-  balance: BigInt!
-  historicalBalances: [HistoricalBalance!] @derivedFrom(field: "account")
+  account: String!
+  amount: BigInt!
+  timestamp: BigInt!
 }
 
-type HistoricalBalance @entity {
+type TokenMint @entity {
   id: ID!
-  account: Account!
-  balance: BigInt!
+  account: String!
+  amount: BigInt!
   timestamp: BigInt!
 }

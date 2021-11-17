@@ -1,8 +1,9 @@
 import BN from 'bn.js'
 import { DatabaseManager, EventContext, StoreContext } from '@subsquid/hydra-common'
-import { Account, HistoricalBalance } from '../generated/model'
+import { TokenBurn, TokenMint } from '../generated/model'
 import { Balances } from '../chain'
 
+const zeroAddress = '0x0000000000000000000000000000000000000000'
 
 export async function balancesTransfer({
   store,
@@ -14,30 +15,21 @@ export async function balancesTransfer({
   const [from, to, value] = new Balances.TransferEvent(event).params
   const tip = extrinsic ? new BN(extrinsic.tip.toString(10)) : new BN(0)
 
-  const fromAcc = await getOrCreate(store, Account, from.toHex())
-  fromAcc.wallet = from.toHuman()
-  fromAcc.balance = fromAcc.balance || new BN(0)
-  fromAcc.balance = fromAcc.balance.sub(value)
-  fromAcc.balance = fromAcc.balance.sub(tip)
-  await store.save(fromAcc)
+  if (to.toHex() === zeroAddress) {
+    const tokenBurn = await getOrCreate(store, TokenBurn, from.toHex())
+    tokenBurn.account = from.toHuman()
+    tokenBurn.amount = value
+    tokenBurn.timestamp = new BN(block.timestamp)
+    await store.save(tokenBurn)
+  }
 
-  const toAcc = await getOrCreate(store, Account, to.toHex())
-  toAcc.wallet = to.toHuman()
-  toAcc.balance = toAcc.balance || new BN(0)
-  toAcc.balance = toAcc.balance.add(value)
-  await store.save(toAcc)
-
-  const hbFrom = new HistoricalBalance()
-  hbFrom.account = fromAcc;
-  hbFrom.balance = fromAcc.balance;
-  hbFrom.timestamp = new BN(block.timestamp)
-  await store.save(hbFrom)
-
-  const hbTo = new HistoricalBalance()
-  hbTo.account = toAcc;
-  hbTo.balance = toAcc.balance;
-  hbTo.timestamp = new BN(block.timestamp)
-  await store.save(hbTo)
+  if (from.toHex() === zeroAddress) {
+    const tokenMint = await getOrCreate(store, TokenMint, to.toHex())
+    tokenMint.account = to.toHuman()
+    tokenMint.amount = value
+    tokenMint.timestamp = new BN(block.timestamp)
+    await store.save(tokenMint)
+  }
 }
 
 

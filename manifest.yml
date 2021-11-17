@@ -5,7 +5,7 @@ hydraVersion: "4"
 
 typegen:
   metadata:
-    source: wss://kusama-rpc.polkadot.io/
+    source: wss://wss.moonriver.moonbeam.network
   events:
     - balances.Transfer
   calls:

@@ -1,4 +1,4 @@
-import { Account } from '../modules/account/account.model';
-export { Account };
-import { HistoricalBalance } from '../modules/historical-balance/historical-balance.model';
-export { HistoricalBalance };
+import { TokenBurn } from '../modules/token-burn/token-burn.model';
+export { TokenBurn };
+import { TokenMint } from '../modules/token-mint/token-mint.model';
+export { TokenMint };

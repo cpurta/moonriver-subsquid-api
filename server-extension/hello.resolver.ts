@@ -1,7 +1,7 @@
 import {Resolver, ObjectType, Field, Query} from "type-graphql"
 import {InjectManager} from "typeorm-typedi-extensions"
 import {EntityManager} from "typeorm"
-import {HistoricalBalance} from "../generated/model"
+import {TokenBurn,TokenMint} from "../generated/model"
 
 
 @ObjectType()
@@ -23,7 +23,9 @@ export class HelloResolver {
 
   @Query(() => Hello)
   async hello(): Promise<Hello> {
-    let count = await this.db.getRepository(HistoricalBalance).createQueryBuilder().getCount()
-    return new Hello(`Hello, we've seen ${count} transfers!`)
+    let burnCount = await this.db.getRepository(TokenBurn).count()
+    let mintCount = await this.db.getRepository(TokenMint).count()
+
+    return new Hello(`Hello, we've seen ${burnCount} token burn events, and ${mintCount} mint events on the Moonriver network`)
   }
 }
